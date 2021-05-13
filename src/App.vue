@@ -1,32 +1,34 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div>
+    <navigation-bar v-on:change-logged-in="updateLogeedInStatus($event)" :loggedIn="logeedIn"></navigation-bar>
+    <router-view v-on:change-logged-in="updateLogeedInStatus($event)"></router-view>
+    <footer-bar></footer-bar>
   </div>
 </template>
 
+<script>
+// @ is an alias to /src
+import NavigationBar from '@/components/NavigationBar.vue'
+import FooterBar from '@/components/FooterBar.vue'
+
+export default {
+    name: 'App',
+    components: {
+        NavigationBar,
+        FooterBar
+    },
+    data() {
+      return {
+        logeedIn: this.$session.exists(),
+      }
+    },
+    methods: {
+      updateLogeedInStatus(event) {
+        this.logeedIn = event
+      }
+    }
+}
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
